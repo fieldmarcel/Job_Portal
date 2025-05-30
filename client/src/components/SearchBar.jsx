@@ -47,11 +47,9 @@ const SearchBar = ({ onSearch, searchHistory, onClearHistory, topKeywords }) => 
         </button>
       </div>
 
-      {/* Suggestions Dropdown */}
       {showSuggestions && (searchHistory.length > 0 || topKeywords.length > 0) && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-50 max-h-80 overflow-y-auto">
           
-          {/* Top Keywords Section */}
           {topKeywords.length > 0 && (
             <div className="p-3 border-b border-gray-100">
               <div className="flex items-center gap-2 mb-3">
@@ -75,7 +73,6 @@ const SearchBar = ({ onSearch, searchHistory, onClearHistory, topKeywords }) => 
             </div>
           )}
 
-          {/* Recent Searches Section */}
           {searchHistory.length > 0 && (
             <div className="p-3">
               <div className="flex items-center justify-between mb-3">
@@ -107,7 +104,6 @@ const SearchBar = ({ onSearch, searchHistory, onClearHistory, topKeywords }) => 
         </div>
       )}
 
-      {/* Click outside to close dropdown */}
       {showSuggestions && (
         <div
           className="fixed inset-0 z-40"

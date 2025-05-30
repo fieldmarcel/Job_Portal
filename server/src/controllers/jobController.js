@@ -16,13 +16,41 @@ export const createJob = async (req, res) => {  // Changed to named export
   }
 };
 
-export const getJobs = async (req, res) => {  // Changed to named export
+export const getJobs = async (req, res) => {
   try {
     const { search } = req.query;
-    const query = search ? { $text: { $search: search } } : {};
-    const jobs = await Job.find(query).limit(50);
+    
+    // 1. Create optimized query
+    const query = search ? { 
+      $text: { $search: search } 
+    } : {};
+    
+    // 2. Add performance optimizations
+    const jobs = await Job.find(query)
+      .limit(50)
+      .lean() // Convert to plain JS objects (faster)
+      .maxTimeMS(30000) // Increase timeout to 30 seconds
+      .select('-__v') // Exclude version key
+      .catch(err => {
+        console.error('Database query failed:', err);
+        throw err;
+      });
+
+    // 3. Add cache-control headers
+    res.set('Cache-Control', 'public, max-age=60');
     res.json(jobs);
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    // 4. Improved error handling
+    console.error('Error in getJobs:', {
+      query: req.query,
+      error: err.message,
+      stack: err.stack
+    });
+    
+    res.status(500).json({ 
+      error: 'Failed to fetch jobs',
+      details: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 };

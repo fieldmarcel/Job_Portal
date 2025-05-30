@@ -15,13 +15,11 @@ const App = () => {
 
   const API_BASE_URL = 'http://localhost:8081/api/v1';
 
-  // Load search history from localStorage on component mount
   useEffect(() => {
     const savedHistory = JSON.parse(localStorage.getItem('jobSearchHistory') || '[]');
     setSearchHistory(savedHistory);
   }, []);
 
-  // Load top keywords on component mount
   useEffect(() => {
     const loadTopKeywords = async () => {
       try {
@@ -38,13 +36,11 @@ const App = () => {
     loadTopKeywords();
   }, []);
 
-  // Save search history to localStorage
   const saveSearchHistory = (history) => {
     setSearchHistory(history);
     localStorage.setItem('jobSearchHistory', JSON.stringify(history));
   };
 
-  // Log keyword to backend
   const logKeyword = async (keyword) => {
     try {
       await fetch(`${API_BASE_URL}/search`, {
@@ -64,7 +60,6 @@ const App = () => {
     setError(null);
     setSearchQuery(query);
 
-    // Update local search history
     const existingIndex = searchHistory.findIndex(term => term.toLowerCase() === query.toLowerCase());
     let newHistory;
     
@@ -75,7 +70,6 @@ const App = () => {
     }
     saveSearchHistory(newHistory);
 
-    // Log keyword to backend
     await logKeyword(query);
 
     try {
@@ -100,7 +94,6 @@ const App = () => {
     setIsAnalyzingResume(true);
     setPredictedRoles(roles);
     
-    // Automatically search for the first predicted role
     if (roles.length > 0) {
       await searchJobs(roles[0]);
     }
@@ -112,7 +105,6 @@ const App = () => {
     saveSearchHistory([]);
   };
 
-  // Load initial jobs on component mount
   useEffect(() => {
     const loadInitialJobs = async () => {
       setLoading(true);
@@ -146,13 +138,11 @@ const App = () => {
             </p>
           </div>
 
-          {/* Resume Upload Section */}
           <ResumeUpload 
             onResumeAnalyzed={handleResumeAnalyzed}
             isAnalyzing={isAnalyzingResume}
           />
 
-          {/* Search Bar */}
           <SearchBar 
             onSearch={searchJobs}
             searchHistory={searchHistory}
@@ -162,7 +152,6 @@ const App = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <JobList 
           jobs={jobs}
@@ -173,11 +162,10 @@ const App = () => {
         />
       </main>
 
-      {/* Footer */}
       <footer className="bg-white border-t border-gray-200 mt-16">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center text-gray-500 text-sm">
-            <p>© 2025 Job Board. Find your next opportunity with AI-powered matching.</p>
+            <p>© 2025 Job Board. Find your next opportunity .</p>
           </div>
         </div>
       </footer>

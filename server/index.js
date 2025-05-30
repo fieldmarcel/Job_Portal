@@ -8,20 +8,21 @@ const PORT = process.env.PORT || 8081;
 
 async function startServer() {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 30000
+    await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 30000, // 30 seconds timeout
+      socketTimeoutMS: 45000,          // 45 seconds socket timeout
+      maxPoolSize: 10,                 // Increased connection pool
+      retryWrites: true,               // Enable retries
+      retryReads: true                 // Enable retries
     });
-    console.log(`✅ MongoDB connected: ${conn.connection.host}`);
-    
-    // Verify connection is ready before starting server
-    mongoose.connection.on('connected', () => {
-      app.listen(PORT, () => {
-        console.log(`🚀 Server running on port ${PORT}`);
-      });
+    console.log('✅ MongoDB connected');
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
   } catch (err) {
-    console.error('❌ MongoDB connection failed:', err.message);
-    process.exit(1);
+    console.error('MongoDB connection error:', err);
+    process.exit(1);  
   }
 }
 startServer();
