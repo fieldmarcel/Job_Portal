@@ -38,7 +38,7 @@ const JobList = ({ jobs, loading, error, searchQuery, predictedRoles }) => {
           <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <div className="text-gray-600 font-medium mb-2">No jobs found</div>
           <div className="text-gray-500 text-sm">
-            Try adjusting your search terms or browse all available positions.
+            Try to adjust  your search terms or browse all available positions.
           </div>
         </div>
       </div>
