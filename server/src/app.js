@@ -28,10 +28,14 @@ app.get('/', (req, res) => {
     }
   });
 });
+app.get('/healthcheck', (req, res) => {
+  res.send('API is alive');
+});
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 // Add this BEFORE your 404 handler
+// Add this in app.js before other routes
 
 
 // Error handler (added)
