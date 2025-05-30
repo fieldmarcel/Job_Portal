@@ -23,6 +23,16 @@ app.use('/api/v1/search', keywordRoutes);
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
+// Add this BEFORE your 404 handler
+app.get('/', (req, res) => {
+  res.json({
+    status: 'API is running',
+    endpoints: {
+      jobs: '/api/v1/jobs',
+      search: '/api/v1/search'
+    }
+  });
+});
 
 // Error handler (added)
 app.use((err, req, res, next) => {
