@@ -19,11 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/jobs', jobRoutes);
 app.use('/api/v1/search', keywordRoutes);
 // app.use('/api/v1/resume', resumeRoutes);
-
-app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
-});
-// Add this BEFORE your 404 handler
 app.get('/', (req, res) => {
   res.json({
     status: 'API is running',
@@ -33,6 +28,11 @@ app.get('/', (req, res) => {
     }
   });
 });
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+// Add this BEFORE your 404 handler
+
 
 // Error handler (added)
 app.use((err, req, res, next) => {
