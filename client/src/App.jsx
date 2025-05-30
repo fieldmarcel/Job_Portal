@@ -134,7 +134,7 @@ const App = () => {
               Find Your Dream Job
             </h1>
             <p className="text-gray-600 text-lg">
-              Upload your resume for AI-powered job matching or search thousands of opportunities
+              Upload your resume for  job matching or search thousands of opportunities
             </p>
           </div>
 
